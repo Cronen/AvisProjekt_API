@@ -71,7 +71,7 @@ namespace WebApiApplication1.DB
         }
         public void CreateDB(List<Reservation> DBList)
         {
-            DB.Add(new Reservation(CatList[0], "Odense", DateTime.Today, DateTime.Today.AddDays(9), "Karina", "Trump", "stump@trump.com", 51236248));
+            DB.Add(new Reservation(CatList[0], "Odense", DateTime.Today, DateTime.Today.AddDays(9), "Karina", "Crone", "stump@trump.com", 51236248));
             DB.Add(new Reservation(CatList[0], "Odense", DateTime.Today, DateTime.Today.AddDays(1), "Mac", "Donald", "mc@donald.com", 11442255));
             DB.Add(new Reservation(CatList[1], "KBH", DateTime.Today.AddDays(-2), DateTime.Today, "Carina", "Cena", "CC@badboi.com", 65498732));
             DB.Add(new Reservation(CatList[2], "Århus", DateTime.Today, DateTime.Today.AddDays(3), "Crone", "Jewels", "Royal@balls.com", 11442255));
