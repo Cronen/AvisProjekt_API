@@ -1,0 +1,80 @@
+﻿<script>
+    function WebApiRequest(apiUri, requestType, httpBodyTxt) {
+        // apiUri           : WebApi  fx "http://localhost:35038/api/avis?s=DatBoi"  or "/api/avis?s=DatBoi"
+        // requestType      : "GET", "POST", "PUT" or "DELETE"
+        // httpBodyTxt      : "data {'Id':2, 'Name':'My New Name'}"
+
+        document.writeln(requestType + " request " + apiUri + "<br/>")
+        //        alert(requestType + " request" + apiUri);
+        httpReq = new XMLHttpRequest();
+        httpReq.onloadend = onloadend_action;      // set callback function
+        httpReq.open(requestType, apiUri, false);   // here synchronous
+        //httpReq.setRequestHeader("Accept", "application/xml; charset=utf-8");
+        //httpReq.setRequestHeader("Content-Type", "application/xml; charset=utf-8");
+        httpReq.setRequestHeader("Accept", "application/json; charset=utf-8");
+        httpReq.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+        httpReq.send(httpBodyTxt);
+
+        //Async callback function
+        function onloadend_action() {
+            var responseTxt = httpReq.responseText;
+            document.writeln("response:<br/>" + responseTxt+"<br/>")
+            //            alert("response:\r\n" + responseTxt);
+        }
+    }
+
+    // main function /global
+    // Insert your test for WebApi here - must be on same site as this html-script-file
+    //Ecamples of call
+    //Vores tests står herunder:
+
+    document.writeln("<br/>Test 1 - Forventet at retunere et reservations object i json format<br/>");
+    //WebApiRequest("http://localhost:35038/api/avis?Fname=AyyIts&Lname=DatBoi", "GET", "json", null);
+    WebApiRequest("api/avis?Fname=AyyIts&Lname=DatBoi", "GET", null);
+
+    document.writeln("<br/>Test 2 - opretter reservation i DB - Forventet at retunere true<br/>");
+    WebApiRequest("api/avis", "POST", "{'BilCat':'Kategori A','Station':'Billund','Email':'Dat@boi.ayy','Firstname':'Dat', 'LastName':'Boi','TelephoneNumber':'11223344'}");
+
+    document.writeln("<br/>Test 3 - Se alle resevationer - Forventet at retunere en liste af reservations objecter i json format<br/>");
+    WebApiRequest("api/avis", "GET", null);
+
+    document.writeln("<br/>Test 4 - udregn pris - Forventet at retunere prisen<br/>");
+    WebApiRequest("api/avis?cat=B&dest=Odense&dstart=11-09-2016&dslut=11-11-2016", "GET", null);
+
+    document.writeln("<br/>Test 5 - Søg i DB (2 kald) - Forventet at retunere reservations objecter i json format<br/>");
+    WebApiRequest("api/avis?var=atlas", "GET", null);
+    WebApiRequest("api/avis?var=11442255", "GET", null);
+    WebApiRequest("api/avis?var=Karina", "GET", null);
+
+    document.writeln("<br/>Test 6 - Login - et korrekt login og et falsk<br/>");
+    WebApiRequest("api/Login?user=Crone&pass=password", "GET", null); //true
+    WebApiRequest("api/Login?user=crown&pass=ayyy", "GET", null); //falsk
+
+    document.writeln("<br/>Test 7 - Login - Tester et login som fejler, og laver derefter en bruger til dette login, så den nu virker<br/>");
+    WebApiRequest("api/Login?user=Testy&pass=testy", "GET", null); //false
+    WebApiRequest("api/Login?username=Testy&pass=testy", "GET", null); //opretter bruger
+    WebApiRequest("api/Login?user=Testy&pass=testy", "GET", null); //true
+
+
+    //document.writeln("<br/>Test 2 - Test af Search metode<br/>");
+    //WebApiRequest("api/avis?s1=face&s2=fuckface", "GET", null); //should be true
+    //WebApiRequest("api/avis?s1=fuckface&s2=face", "GET", null); //should be true
+    //WebApiRequest("api/avis?s1=Mathias&s2=matias", "GET", null); //Should be true
+    //WebApiRequest("api/avis?s1=fatman&s2=alanya", "GET", null); //should be false
+    //WebApiRequest("api/avis?s1=Crone&s2=Badboi", "GET", null); //should be false
+    //WebApiRequest("api/avis?s1=Cron&s2=krone", "GET", null); //should be false
+
+    //document.writeln("<br/>Begin of test 5<br/>")
+    //WebApiRequest("api/Student?id=1", "PUT", "{'Id':2, 'Name':'My New Name'}");
+
+    //document.writeln("<br/>Begin of test 6<br/>")
+    //WebApiRequest("api/Student", "GET", null);
+
+    //document.writeln("<br/>Begin of test 7<br/>")
+    //for (i = 1; i < 3; ++i) {
+    //    WebApiRequest("api/Student/"+i, "GET",  null);
+    //}
+
+    document.writeln("<br/><br/>End of test<br/>")
+    
+</script>
